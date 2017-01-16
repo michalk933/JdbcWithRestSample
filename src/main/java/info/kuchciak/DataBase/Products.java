@@ -2,9 +2,7 @@ package info.kuchciak.DataBase;
 
 import java.math.BigDecimal;
 
-/**
- * Created by michal on 13.01.2017.
- */
+
 public class Products implements ProductsBuilder {
     //productCode, productName, productLine, productScale, productVendor, productDescription, quantityInStock, buyPrice, MSRP
     private String productCode;

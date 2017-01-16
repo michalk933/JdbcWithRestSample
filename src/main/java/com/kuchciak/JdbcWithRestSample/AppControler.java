@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+// Controler REST
+// Return result query url adress
 @RestController
 public class AppControler {
 
 
+    // Return object Products with productCode = S10_2016
     @RequestMapping("getEmp")
     public List<Products> EmployList() {
 

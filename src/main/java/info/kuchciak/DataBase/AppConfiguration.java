@@ -8,15 +8,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
-/**
- * Created by michal on 13.01.2017.
- */
 
 @Configuration
 @ComponentScan(basePackages = "info.kuchciak")
 public class AppConfiguration {
 
 
+    //Connecting data base MySQL
     @Bean
     public DataSource dataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
@@ -26,6 +24,7 @@ public class AppConfiguration {
         return dataSource;
     }
 
+    //Create new JdbcTemplate to do query
     @Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());

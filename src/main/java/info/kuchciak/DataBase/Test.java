@@ -5,9 +5,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.util.Map;
 
-/**
- * Created by michal on 13.01.2017.
- */
+// Class test
+// Check connect with data base
 public class Test {
 
     public static void main(String[] args) {

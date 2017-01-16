@@ -15,16 +15,22 @@ public class ProductsRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    //AppConfiguration have options ComponentScan and find jdbcTemplate
     @Autowired
     public void setDataSource(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+
+    // Methot test
+    // Get and show one row
     public Map<String, Object> getProduct(String productCode){
         String sql = "SELECT * FROM products WHERE productCode = ?";
         return jdbcTemplate.queryForMap(sql,productCode);
     }
 
+    // Method mapping result query with data base in object Products
+    // Get one row with productCode
     public Products getProductsByProductCode(String productCode){
         RowMapper<Products> rowMapper = new RowMapper<Products>() {
             @Override
