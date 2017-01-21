@@ -3,6 +3,7 @@ package com.kuchciak.JdbcWithRestSample;
 import info.kuchciak.DataBase.AppConfiguration;
 import info.kuchciak.DataBase.Products;
 import info.kuchciak.DataBase.ProductsRepository;
+import info.kuchciak.DataBase.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +38,15 @@ public class AppControler {
     // Create new object Products and send to Repository
     //productCode, productName, productLine, productScale, productVendor, productDescription, quantityInStock, buyPrice, MSRP
     @PostMapping("addProduct/")
-    public Products addProduct(@RequestParam("productCode") String productCode,
-                               @RequestParam("productName") String productName,
-                               @RequestParam("productLine") String productLine,
-                               @RequestParam("productScale") String productScale,
-                               @RequestParam("productVendor") String productVendor,
-                               @RequestParam("productDescription") String productDescription,
-                               @RequestParam("quantityInStock") int quantityInStock,
-                               @RequestParam("buyPrice") BigDecimal buyPrice,
-                               @RequestParam("MSRP") BigDecimal MSRP) {
+    public String addProduct(@RequestParam("productCode") String productCode,
+                             @RequestParam("productName") String productName,
+                             @RequestParam("productLine") String productLine,
+                             @RequestParam("productScale") String productScale,
+                             @RequestParam("productVendor") String productVendor,
+                             @RequestParam("productDescription") String productDescription,
+                             @RequestParam("quantityInStock") int quantityInStock,
+                             @RequestParam("buyPrice") double buyPrice,
+                             @RequestParam("MSRP") double MSRP) {
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         ProductsRepository productsRepository = applicationContext.getBean("productsRepository", ProductsRepository.class);
@@ -58,15 +59,27 @@ public class AppControler {
         products.setProductVendor(productVendor);
         products.setProductDescription(productDescription);
         products.setQuantityInStock(quantityInStock);
-        products.setBuyPrice(buyPrice);
-        products.setMSRP(MSRP);
+        products.setBuyPrice(BigDecimal.valueOf(buyPrice));
+        products.setMSRP(BigDecimal.valueOf(MSRP));
 
-        productsRepository.addNewProduct(products);
+        String result = productsRepository.addNewProduct(products);
 
-
-        return products;
+        return result + products.toString();
     }
 //'S700_2047', 'HMS Bounty', 'Ships', '1:700', 'Unimax Art Galleries', 'Measures 30 inches Long x 27 1/2 inches High x 4 3/4 inches Wide. \r\nMany extras including rigging, long boats, pilot house, anchors, etc. Comes with three masts, all square-rigged.', '3501', '39.83', '90.52'
 
+    @PostMapping("sellProdukt/{productName}/quantity/{quantityInStock}")
+    public String sellProduktQuantity(@PathVariable String productName,
+                                    @PathVariable int quantityInStock) {
 
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        ProductsRepository productsRepository = applicationContext.getBean("productsRepository", ProductsRepository.class);
+
+        int result = productsRepository.sellOneProduct(productName, quantityInStock);
+        return (result > 10) ? ("Stan magazynu : " + result) : ("Niski stan magazynu : " + result);
+    }
+
+    //String productName, int quantityInStock
+
+//'
 }

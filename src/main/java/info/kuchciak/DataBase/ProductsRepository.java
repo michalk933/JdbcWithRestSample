@@ -53,8 +53,8 @@ public class ProductsRepository {
     }
 
 
-    // Method add new record in to Products table 
-    public void addNewProduct(Products products) {
+    // Method add new record in to Products table
+    public String addNewProduct(Products products) {
         System.out.println(products.toString());
         String sql = "INSERT INTO products " + "(productCode, productName, productLine, productScale, productVendor, productDescription, quantityInStock, buyPrice, MSRP)"
                 + " VALUES (?,?,?,?,?,?,?,?,?)";
@@ -63,9 +63,24 @@ public class ProductsRepository {
                 products.getQuantityInStock(), products.getBuyPrice(), products.getMSRP()};
 
         int update = jdbcTemplate.update(sql, objects);
-        System.out.println("Co zwraca baza : " + update);
+        return update == 1 ? "Dodano nowy produkt " : "Nie dodano nowego produktu : ";
 
     }
 
 //localhost:8080/addProduct/?productCode=S800_8000&productName=Cebula&productLine=Ships&productScale=1:700&productVendor=Unimax&productDescription=CosTamCosTam&quantityInStock=99999&buyPrice=321.65&MSRP=66.66
+
+    public int sellOneProduct(String productName, int quantityInStock) {
+
+        String sqlStock = "SELECT quantityInStock FROM products WHERE productName = ?";
+        int tmp = jdbcTemplate.queryForObject(sqlStock, Integer.class, productName);
+        System.out.println("Liczba sztuk : " + tmp);
+
+        String sql = "UPDATE products SET quantityInStock = ? WHERE productName = ?";
+        jdbcTemplate.update(sql, (tmp - quantityInStock), productName);
+        tmp = quantityInStock - tmp;
+
+        return tmp;
+    }
+
+
 }

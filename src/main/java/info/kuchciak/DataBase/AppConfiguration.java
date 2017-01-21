@@ -18,7 +18,7 @@ public class AppConfiguration {
     @Bean
     public DataSource dataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/classicmodels?useSSL=false");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/shop?useSSL=false");
         dataSource.setUser("test");
         dataSource.setPassword("test");
         return dataSource;
